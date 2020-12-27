@@ -4,8 +4,8 @@ import numpy as np
 # plt.style.use('dark_background')  # plt 테마만 바꾸는것
 from mss import mss
 # 클자 인식
-import pytesseract
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+# import pytesseract
+# pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 # 컴퓨터 조작
 import win32com.client as comclt
 import keyboard
