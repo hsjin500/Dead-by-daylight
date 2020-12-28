@@ -52,13 +52,14 @@ while True:
 #         print(len(cnts0))
     offset = 0
     # Center : 73 , 75.5
-    for c in cnts0:
-        x0,y0,w0,h0 = cv2.boundingRect(c)
-        cv2.rectangle(img_np, (x0, y0), (x0 + w0, y0 + h0), (255,0,0), 2)
-        #---for문 안에 새로운 조건, 게이지가 떴을 때 영역이 1개만 나오게 하는 것은 이미 앞에서 색으로 분류함.
-        #그 1개의 영역의 중심점과 전체 이미지 중심(원 중심) 사이의 거리를 구하자(나중에 각도를 구하려고)
-        if len(cnts0) == 1 and ((x0+w0/2)-73) != 0 :
-            angle0 = np.degrees(np.arctan((75.5-(y0+h0/2))/((x0+w0/2)-73)))
+    if len(cnts0) == 1 :
+        for c in cnts0:
+            x0,y0,w0,h0 = cv2.boundingRect(c)
+            cv2.rectangle(img_np, (x0, y0), (x0 + w0, y0 + h0), (255,0,0), 2)
+            #---for문 안에 새로운 조건, 게이지가 떴을 때 영역이 1개만 나오게 하는 것은 이미 앞에서 색으로 분류함.
+            #그 1개의 영역의 중심점과 전체 이미지 중심(원 중심) 사이의 거리를 구하자(나중에 각도를 구하려고)
+            if len(cnts0) == 1 and ((x0+w0/2)-73) != 0 :
+                angle0 = np.degrees(np.arctan((75.5-(y0+h0/2))/((x0+w0/2)-73)))
     #####1
     cnts1 = cv2.findContours(close1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts1 = cnts1[0] if len(cnts1) == 2 else cnts1[1]
@@ -82,7 +83,8 @@ while True:
             angle1 = np.degrees(np.arctan((75.5-(y1+h1/2))/((x1+w1/2)-73)))
     #################### 인게임 내에 Space 자동 동작 버튼 ######################
     # x는 정확하게 중심으로 안해도 된다. (X축 기준으로 각도를 구하기 때문에)
-    if (angle0 - 8) <= angle1 <= (angle0 + 8) \
+    # 스킬 체크 범위 민감도 조절
+    if (angle0 - 12) <= angle1 <= (angle0 + 12) \
     and (x0-73)*(x1-73) > 0 \
     and (75.5-(y0+h0/2))*(75.5-(y1+h1/2)) != 0 :
         wsh= comclt.Dispatch("WScript.Shell")
